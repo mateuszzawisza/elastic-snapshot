@@ -14,7 +14,7 @@ type SnapshotRequest struct {
 	pathSettings map[string]string
 }
 
-var CreateSnapshotRepoRequest SnapshotRequest = SnapshotRequest{
+var CreateSnapshotRequest SnapshotRequest = SnapshotRequest{
 	"localhost:9200",
 	"_snapshot/{{repo_name}}/{{snapshot_name}}",
 	"PUT",
@@ -45,7 +45,7 @@ func (r *SnapshotRequest) perform() {
 }
 
 func createSnapshot(url, repoName, snapName string) {
-	request := CreateSnapshotRepoRequest
+	request := CreateSnapshotRequest
 	request.uri = url
 	request.pathSettings["repo_name"] = repoName
 	request.pathSettings["snapshot_name"] = snapName
