@@ -31,6 +31,7 @@ func (r *SnapshotRequest) setPath() {
 }
 
 func (r *SnapshotRequest) perform() {
+	r.setPath()
 	client := &http.Client{}
 	requestURL := fmt.Sprintf("%s/%s", r.uri, r.requestPath)
 	req, err := http.NewRequest(r.method, requestURL, nil)
@@ -48,6 +49,5 @@ func createSnapshot(url, repoName, snapName string) {
 	request.uri = url
 	request.pathSettings["repo_name"] = repoName
 	request.pathSettings["snapshot_name"] = snapName
-	request.setPath()
 	request.perform()
 }
