@@ -30,7 +30,7 @@ func TestCreateSnapshot(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		receivedURI = r.RequestURI
 		receivedHTTPMethod = r.Method
-		fmt.Fprintln(w, "{}")
+		fmt.Fprintln(w, "`{}`")
 	}))
 	defer ts.Close()
 
@@ -49,5 +49,5 @@ func TestCreateRepo(t *testing.T) {
 func TestDeleteSnapshot(t *testing.T) {
 }
 
-func TestListSnapshots(t *testing.T) {
+func Test(t *testing.T) {
 }
