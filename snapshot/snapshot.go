@@ -80,7 +80,7 @@ func CreateSnapshot(url, repoName, snapName string) {
 	request.perform()
 }
 
-func listSnapshots(url, repoName string) listSnapshotsJSON {
+func ListSnapshots(url, repoName string) listSnapshotsJSON {
 	request := ListSnapshotsRequest
 	request.uri = url
 	request.pathSettings["repo_name"] = repoName

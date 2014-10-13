@@ -92,7 +92,7 @@ func TestListSnapshots(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	snapshots := listSnapshots(ts.URL, "test_repo")
+	snapshots := ListSnapshots(ts.URL, "test_repo")
 	if receivedURI != expectedURI {
 		t.Fatalf("Request URI not matched. Got %s. Expected: %s", receivedURI, expectedURI)
 	}

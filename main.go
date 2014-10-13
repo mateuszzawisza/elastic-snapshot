@@ -25,5 +25,7 @@ func main() {
 	case "create":
 		snap_name := fmt.Sprintf("snapshot_%s", time.Now)
 		snapshot.CreateSnapshot(*address, *repo, snap_name)
+	case "list":
+		snapshot.ListSnapshots(*address, *repo)
 	}
 }
