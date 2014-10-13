@@ -72,7 +72,7 @@ func (r *SnapshotRequest) perform() (*http.Response, error) {
 	return response, nil
 }
 
-func createSnapshot(url, repoName, snapName string) {
+func CreateSnapshot(url, repoName, snapName string) {
 	request := CreateSnapshotRequest
 	request.uri = url
 	request.pathSettings["repo_name"] = repoName

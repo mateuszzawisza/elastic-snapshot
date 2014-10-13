@@ -71,7 +71,7 @@ func TestCreateSnapshot(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	createSnapshot(ts.URL, "test_repo", "snap_1")
+	CreateSnapshot(ts.URL, "test_repo", "snap_1")
 	if receivedURI != expectedURI {
 		t.Fatalf("Request URI not matched. Got %s. Expected: %s", receivedURI, expectedURI)
 	}
