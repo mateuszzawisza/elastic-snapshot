@@ -85,6 +85,11 @@ func listSnapshots(url, repoName string) listSnapshotsJSON {
 	request.uri = url
 	request.pathSettings["repo_name"] = repoName
 	response, _ := request.perform()
+	js := parseListSnapshotsResponse(response)
+	return js
+}
+
+func parseListSnapshotsResponse(response *http.Response) listSnapshotsJSON {
 	var js listSnapshotsJSON
 	defer response.Body.Close()
 	body, err := ioutil.ReadAll(response.Body)
