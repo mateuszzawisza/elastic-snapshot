@@ -21,7 +21,7 @@ func init() {
 
 func main() {
 	flag.Parse()
-	if *action == "list" {
+	if *action == "create" {
 		snap_name := fmt.Sprintf("snapshot_%s", time.Now)
 		snapshot.CreateSnapshot(*address, *repo, snap_name)
 	}
