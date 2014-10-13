@@ -87,7 +87,10 @@ func listSnapshots(url, repoName string) listSnapshotsJSON {
 	response, _ := request.perform()
 	var js listSnapshotsJSON
 	defer response.Body.Close()
-	body, _ := ioutil.ReadAll(response.Body)
+	body, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		panic("Error reading list snapshot response")
+	}
 	json.Unmarshal(body, &js)
 	return js
 }
