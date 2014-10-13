@@ -8,6 +8,40 @@ import (
 	"testing"
 )
 
+const listSnapshotResponse string = `{
+  "snapshots" : [ {
+    "snapshot" : "snap_1412944591",
+    "indices" : [ "twitter" ],
+    "state" : "SUCCESS",
+    "start_time" : "2014-10-10T12:36:31.531Z",
+    "start_time_in_millis" : 1412944591531,
+    "end_time" : "2014-10-10T12:36:33.115Z",
+    "end_time_in_millis" : 1412944593115,
+    "duration_in_millis" : 1584,
+    "failures" : [ ],
+    "shards" : {
+      "total" : 5,
+      "failed" : 0,
+      "successful" : 5
+    }
+  }, {
+    "snapshot" : "snap_1412944813",
+    "indices" : [ "twitter" ],
+    "state" : "SUCCESS",
+    "start_time" : "2014-10-10T12:40:13.904Z",
+    "start_time_in_millis" : 1412944813904,
+    "end_time" : "2014-10-10T12:40:14.730Z",
+    "end_time_in_millis" : 1412944814730,
+    "duration_in_millis" : 826,
+    "failures" : [ ],
+    "shards" : {
+      "total" : 5,
+      "failed" : 0,
+      "successful" : 5
+    }
+  }]
+}`
+
 func TestSetPath(t *testing.T) {
 	const expectedRequestPath = "_snapshot/test_repo/snap_1"
 	snapReqTest := new(SnapshotRequest)
@@ -20,6 +54,9 @@ func TestSetPath(t *testing.T) {
 	if interpolatedPath != expectedRequestPath {
 		t.Fatalf("Request path not set properly. Got %s. Expected: %s", interpolatedPath, expectedRequestPath)
 	}
+}
+
+func TestCreateRepo(t *testing.T) {
 }
 
 func TestCreateSnapshot(t *testing.T) {
@@ -43,11 +80,32 @@ func TestCreateSnapshot(t *testing.T) {
 	}
 }
 
-func TestCreateRepo(t *testing.T) {
+func TestListSnapshots(t *testing.T) {
+	const expectedURI = "/_snapshot/test_repo/_all"
+	const expectedHTTPMethod = "GET"
+	var receivedURI string
+	var receivedHTTPMethod string
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		receivedURI = r.RequestURI
+		receivedHTTPMethod = r.Method
+		fmt.Fprintln(w, listSnapshotResponse)
+	}))
+	defer ts.Close()
+
+	snapshots := listSnapshots(ts.URL, "test_repo")
+	if receivedURI != expectedURI {
+		t.Fatalf("Request URI not matched. Got %s. Expected: %s", receivedURI, expectedURI)
+	}
+	if receivedHTTPMethod != expectedHTTPMethod {
+		t.Fatalf("Request Method not matched. Got %s. Expected: %s", receivedHTTPMethod, expectedHTTPMethod)
+	}
+	if snapshots.Snapshots[0].Snapshot != "snap_1412944591" {
+		t.Fatalf("Snaphsot name mismatch")
+	}
+	if snapshots.Snapshots[1].Snapshot != "snap_1412944813" {
+		t.Fatalf("Snaphsot name mismatch")
+	}
 }
 
 func TestDeleteSnapshot(t *testing.T) {
-}
-
-func Test(t *testing.T) {
 }
