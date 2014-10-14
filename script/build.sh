@@ -7,5 +7,5 @@ echo "Done!"
 echo
 
 echo "Building..."
-gox -output "./bin/elastic-snapshot_{{.OS}}_{{.Arch}}" -os "linux darwin"
+gox -output "./bin/elastic-snapshot_{{.OS}}_{{.Arch}}" -os "linux darwin" -arch "amd64 386"
 echo "Done!"
