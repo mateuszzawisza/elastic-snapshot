@@ -9,7 +9,7 @@ import (
 	"github.com/mateuszzawisza/elastic-snapshot/snapshot"
 )
 
-const Version = "0.0.1"
+const Version = "0.0.2"
 
 var address = flag.String("address", "http://localhost:9200", "elasticsearch address:port")
 var action = flag.String("action", "action", "(list|create)")
