@@ -9,7 +9,7 @@ import (
 	"github.com/mateuszzawisza/elastic-snapshot/snapshot"
 )
 
-var address = flag.String("address", "localhost:9200", "elasticsearch address:port")
+var address = flag.String("address", "http://localhost:9200", "elasticsearch address:port")
 var action = flag.String("action", "list", "(list|create)")
 var repo = flag.String("repo", "my_repo", "snapshot repo")
 
@@ -23,9 +23,12 @@ func main() {
 	flag.Parse()
 	switch *action {
 	case "create":
-		snap_name := fmt.Sprintf("snapshot_%s", time.Now)
+		snap_name := fmt.Sprintf("snapshot_%d", time.Now().Unix())
 		snapshot.CreateSnapshot(*address, *repo, snap_name)
 	case "list":
-		snapshot.ListSnapshots(*address, *repo)
+		snapshots := snapshot.ListSnapshots(*address, *repo).Snapshots
+		for _, snapshot := range snapshots {
+			fmt.Println(snapshot.Snapshot)
+		}
 	}
 }
