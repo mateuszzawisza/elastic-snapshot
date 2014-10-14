@@ -42,6 +42,13 @@ var CreateSnapshotRequest SnapshotRequest = SnapshotRequest{
 	map[string]string{},
 }
 
+var RestoreSnapshotRequest SnapshotRequest = SnapshotRequest{
+	"localhost:9200",
+	"_snapshot/{{repo_name}}/{{snapshot_name}}/_restore",
+	"POST",
+	map[string]string{},
+}
+
 var ListSnapshotsRequest SnapshotRequest = SnapshotRequest{
 	"localhost:9200",
 	"_snapshot/{{repo_name}}/_all",
@@ -75,6 +82,17 @@ func (r *SnapshotRequest) perform() (*http.Response, error) {
 
 func CreateSnapshot(url, repoName, snapName string) {
 	request := CreateSnapshotRequest
+	request.uri = url
+	request.pathSettings["repo_name"] = repoName
+	request.pathSettings["snapshot_name"] = snapName
+	_, err := request.perform()
+	if err != nil {
+		log.Panicf("Failed on create snapshot request. Err: %v", err)
+	}
+}
+
+func RestoreSnapshot(url, repoName, snapName string) {
+	request := RestoreSnapshotRequest
 	request.uri = url
 	request.pathSettings["repo_name"] = repoName
 	request.pathSettings["snapshot_name"] = snapName
