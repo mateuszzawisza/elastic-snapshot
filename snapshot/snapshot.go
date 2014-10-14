@@ -37,7 +37,7 @@ type listSnapshotsJSON struct {
 
 var CreateSnapshotRequest SnapshotRequest = SnapshotRequest{
 	"localhost:9200",
-	"_snapshot/{{repo_name}}/{{snapshot_name}}",
+	"_snapshot/{{repo_name}}/{{snapshot_name}}?wait_for_completion=true",
 	"PUT",
 	map[string]string{},
 }

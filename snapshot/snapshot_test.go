@@ -60,7 +60,7 @@ func TestCreateRepo(t *testing.T) {
 }
 
 func TestCreateSnapshot(t *testing.T) {
-	const expectedURI = "/_snapshot/test_repo/snap_1"
+	const expectedURI = "/_snapshot/test_repo/snap_1?wait_for_completion=true"
 	const expectedHTTPMethod = "PUT"
 	var receivedURI string
 	var receivedHTTPMethod string
