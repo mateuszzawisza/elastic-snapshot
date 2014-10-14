@@ -34,6 +34,11 @@ func main() {
 	case "create":
 		snap_name := fmt.Sprintf("snapshot_%d", time.Now().Unix())
 		snapshot.CreateSnapshot(*address, *repo, snap_name)
+	case "restore":
+		err := snapshot.RestoreLastSnapshot(*address, *repo)
+		if err != nil {
+			log.Fatal("Restore failed")
+		}
 	case "list":
 		snapshots := snapshot.ListSnapshots(*address, *repo).Snapshots
 		for _, snapshot := range snapshots {
