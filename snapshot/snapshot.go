@@ -2,6 +2,7 @@ package snapshot
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -102,6 +103,16 @@ func RestoreSnapshot(url, repoName, snapName string) {
 	}
 }
 
+func RestoreLastSnapshot(url, repoName string) error {
+	snapshots := ListSnapshots(url, repoName)
+	lastSnapshot, err := findLastSnapshot(snapshots)
+	if err != nil {
+		return err
+	}
+	RestoreSnapshot(url, repoName, lastSnapshot)
+	return nil
+}
+
 func ListSnapshots(url, repoName string) listSnapshotsJSON {
 	request := ListSnapshotsRequest
 	request.uri = url
@@ -123,4 +134,14 @@ func parseListSnapshotsResponse(response *http.Response) listSnapshotsJSON {
 	}
 	json.Unmarshal(body, &js)
 	return js
+}
+
+func findLastSnapshot(snapshots listSnapshotsJSON) (string, error) {
+	snapshotsCount := len(snapshots.Snapshots)
+	if snapshotsCount > 0 {
+		return snapshots.Snapshots[snapshotsCount-1].Snapshot, nil
+	} else {
+		return "", errors.New("Last snapshot could not be found")
+	}
+
 }
