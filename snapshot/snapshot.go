@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strings"
 )
@@ -77,14 +78,20 @@ func CreateSnapshot(url, repoName, snapName string) {
 	request.uri = url
 	request.pathSettings["repo_name"] = repoName
 	request.pathSettings["snapshot_name"] = snapName
-	request.perform()
+	_, err := request.perform()
+	if err != nil {
+		log.Panicf("Failed on create snapshot request. Err: %v", err)
+	}
 }
 
 func ListSnapshots(url, repoName string) listSnapshotsJSON {
 	request := ListSnapshotsRequest
 	request.uri = url
 	request.pathSettings["repo_name"] = repoName
-	response, _ := request.perform()
+	response, err := request.perform()
+	if err != nil {
+		log.Panicf("Failed on list snapshots request. Err: %v", err)
+	}
 	js := parseListSnapshotsResponse(response)
 	return js
 }
