@@ -2,6 +2,7 @@ package snapshot
 
 import (
 	"fmt"
+	"io/ioutil"
 
 	"net/http"
 	"net/http/httptest"
@@ -57,6 +58,39 @@ func TestSetPath(t *testing.T) {
 }
 
 func TestCreateRepo(t *testing.T) {
+	repoName := "super_cluster_repository"
+	bucketName := "elasticsearch-europe"
+	basePath := "super_cluster"
+	const expectedURI = "/_snapshot/super_cluster_repository"
+	const expectedHTTPMethod = "PUT"
+	const expectedData = `{
+    "type": "s3",
+    "settings": {
+        "bucket": "elasticsearch-europe",
+        "base_path": "super_cluster"
+    }
+}`
+	var receivedURI string
+	var receivedHTTPMethod string
+	var receivedData []byte
+
+	es := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		receivedURI = r.RequestURI
+		receivedHTTPMethod = r.Method
+		receivedData, _ = ioutil.ReadAll(r.Body)
+		fmt.Fprintln(w, "`{}`")
+	}))
+	defer es.Close()
+	CreateRepo(es.URL, repoName, bucketName, basePath)
+	if receivedURI != expectedURI {
+		t.Fatalf("Request URI not matched. Got %s. Expected: %s", receivedURI, expectedURI)
+	}
+	if receivedHTTPMethod != expectedHTTPMethod {
+		t.Fatalf("Request Method not matched. Got %s. Expected: %s", receivedHTTPMethod, expectedHTTPMethod)
+	}
+	if string(receivedData) != expectedData {
+		t.Fatalf("Request data not matched. Got %s. Expected: %s", receivedData, expectedData)
+	}
 }
 
 func TestCreateSnapshot(t *testing.T) {

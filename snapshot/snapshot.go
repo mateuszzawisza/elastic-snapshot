@@ -15,6 +15,7 @@ type SnapshotRequest struct {
 	requestPath  string
 	method       string
 	pathSettings map[string]string
+	data         string
 }
 
 type listSnapshotsJSON struct {
@@ -41,6 +42,7 @@ var CreateSnapshotRequest SnapshotRequest = SnapshotRequest{
 	"_snapshot/{{repo_name}}/{{snapshot_name}}?wait_for_completion=true",
 	"PUT",
 	map[string]string{},
+	"",
 }
 
 var RestoreSnapshotRequest SnapshotRequest = SnapshotRequest{
@@ -48,6 +50,7 @@ var RestoreSnapshotRequest SnapshotRequest = SnapshotRequest{
 	"_snapshot/{{repo_name}}/{{snapshot_name}}/_restore",
 	"POST",
 	map[string]string{},
+	"",
 }
 
 var ListSnapshotsRequest SnapshotRequest = SnapshotRequest{
@@ -55,6 +58,7 @@ var ListSnapshotsRequest SnapshotRequest = SnapshotRequest{
 	"_snapshot/{{repo_name}}/_all",
 	"GET",
 	map[string]string{},
+	"",
 }
 
 func (r *SnapshotRequest) setPath() {
@@ -80,6 +84,8 @@ func (r *SnapshotRequest) perform() (*http.Response, error) {
 	}
 	return response, nil
 }
+
+func CreateRepo(address, repoName, bucketName, basePath string) {}
 
 func CreateSnapshot(url, repoName, snapName string) {
 	request := CreateSnapshotRequest
