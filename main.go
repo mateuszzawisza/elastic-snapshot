@@ -6,15 +6,17 @@ import (
 	"log"
 	"time"
 
+	"github.com/mateuszzawisza/elastic-brain-surgeon/clusterstatus"
 	"github.com/mateuszzawisza/elastic-snapshot/snapshot"
 )
 
 const Version = "0.0.3"
 
 var address = flag.String("address", "http://localhost:9200", "elasticsearch address:port")
-var action = flag.String("action", "action", "(list|create)")
+var action = flag.String("action", "action", "(list|create|restore)")
 var repo = flag.String("repo", "my_repo", "snapshot repo")
 var version = flag.Bool("version", false, "Print version and exit")
+var masterOnly = flag.Bool("master-only", false, "Perform action only if current node is master node")
 
 func init() {
 	if len(*repo) == 0 {
@@ -32,6 +34,12 @@ func main() {
 	default:
 		return
 	case "create":
+		if *masterOnly {
+			if amI := clusterstatus.AmIMaster(*address); amI == false {
+				log.Println("I'm not a master. Exiting.")
+				return
+			}
+		}
 		snap_name := fmt.Sprintf("snapshot_%d", time.Now().Unix())
 		snapshot.CreateSnapshot(*address, *repo, snap_name)
 	case "restore":
