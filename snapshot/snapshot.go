@@ -37,6 +37,20 @@ type listSnapshotsJSON struct {
 	} `json:"snapshots"`
 }
 
+var CreateRepoRequest SnapshotRequest = SnapshotRequest{
+	"localhost:9200",
+	"_snapshot/{{repo_name}}",
+	"PUT",
+	map[string]string{},
+	`{
+    "type": "s3",
+    "settings": {
+        "bucket": "{{bucket_name}}",
+        "base_path": "{{base_path}}"
+    }
+}`,
+}
+
 var CreateSnapshotRequest SnapshotRequest = SnapshotRequest{
 	"localhost:9200",
 	"_snapshot/{{repo_name}}/{{snapshot_name}}?wait_for_completion=true",
@@ -70,11 +84,22 @@ func (r *SnapshotRequest) setPath() {
 	r.requestPath = path
 }
 
+func (r *SnapshotRequest) setData() {
+	data := r.data
+	for name, value := range r.pathSettings {
+		nameMark := fmt.Sprintf("{{%s}}", name)
+		data = strings.Replace(data, nameMark, value, 1)
+	}
+	r.data = data
+}
+
 func (r *SnapshotRequest) perform() (*http.Response, error) {
 	r.setPath()
+	r.setData()
 	client := &http.Client{}
 	requestURL := fmt.Sprintf("%s/%s", r.uri, r.requestPath)
-	req, err := http.NewRequest(r.method, requestURL, nil)
+	body := strings.NewReader(r.data)
+	req, err := http.NewRequest(r.method, requestURL, body)
 	if err != nil {
 		return nil, err
 	}
@@ -85,7 +110,17 @@ func (r *SnapshotRequest) perform() (*http.Response, error) {
 	return response, nil
 }
 
-func CreateRepo(address, repoName, bucketName, basePath string) {}
+func CreateRepo(url, repoName, bucketName, basePath string) {
+	request := CreateRepoRequest
+	request.uri = url
+	request.pathSettings["repo_name"] = repoName
+	request.pathSettings["bucket_name"] = bucketName
+	request.pathSettings["base_path"] = basePath
+	_, err := request.perform()
+	if err != nil {
+		log.Panicf("Failed on create repo request. Err: %v", err)
+	}
+}
 
 func CreateSnapshot(url, repoName, snapName string) {
 	request := CreateSnapshotRequest
