@@ -37,6 +37,14 @@ type listSnapshotsJSON struct {
 	} `json:"snapshots"`
 }
 
+var CheckRepoRequest SnapshotRequest = SnapshotRequest{
+	"localhost:9200",
+	"_snapshot/{{repo_name}}",
+	"GET",
+	map[string]string{},
+	"",
+}
+
 var CreateRepoRequest SnapshotRequest = SnapshotRequest{
 	"localhost:9200",
 	"_snapshot/{{repo_name}}",
@@ -108,6 +116,25 @@ func (r *SnapshotRequest) perform() (*http.Response, error) {
 		return nil, connectionErr
 	}
 	return response, nil
+}
+
+func CheckRepo(url, repoName string) bool {
+	request := CheckRepoRequest
+	request.uri = url
+	request.pathSettings["repo_name"] = repoName
+	response, err := request.perform()
+	if err != nil {
+		log.Panicf("Failed to perform check repo request. Err: %v", err)
+	}
+	switch response.StatusCode {
+	default:
+		log.Printf("Got status: %s - %d", response.StatusCode, response.Status)
+		return false
+	case http.StatusOK:
+		return true
+	case http.StatusNotFound:
+		return false
+	}
 }
 
 func CreateRepo(url, repoName, bucketName, basePath string) {

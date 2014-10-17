@@ -57,6 +57,50 @@ func TestSetPath(t *testing.T) {
 	}
 }
 
+func TestCheckRepoFound(t *testing.T) {
+	repoName := "super_cluster_repository"
+	const expectedURI = "/_snapshot/super_cluster_repository"
+	const expectedHTTPMethod = "GET"
+	var receivedURI string
+	var receivedHTTPMethod string
+
+	es := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		receivedURI = r.RequestURI
+		receivedHTTPMethod = r.Method
+		fmt.Fprintln(w, "`{}`")
+	}))
+	defer es.Close()
+	response := CheckRepo(es.URL, repoName)
+	if receivedURI != expectedURI {
+		t.Fatalf("Request URI not matched. Got %s. Expected: %s", receivedURI, expectedURI)
+	}
+	if !response {
+		t.Fatalf("Repo exists but not found!")
+	}
+}
+
+func TestCheckRepoNotFound(t *testing.T) {
+	repoName := "super_cluster_repository"
+	const expectedURI = "/_snapshot/super_cluster_repository"
+	const expectedHTTPMethod = "GET"
+	var receivedURI string
+	var receivedHTTPMethod string
+
+	es := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		receivedURI = r.RequestURI
+		receivedHTTPMethod = r.Method
+		http.NotFound(w, r)
+	}))
+	defer es.Close()
+	response := CheckRepo(es.URL, repoName)
+	if receivedURI != expectedURI {
+		t.Fatalf("Request URI not matched. Got %s. Expected: %s", receivedURI, expectedURI)
+	}
+	if response {
+		t.Fatalf("Repo doesn't exists but was found!")
+	}
+}
+
 func TestCreateRepo(t *testing.T) {
 	repoName := "super_cluster_repository"
 	bucketName := "elasticsearch-europe"
