@@ -233,4 +233,22 @@ func TestListSnapshots(t *testing.T) {
 }
 
 func TestDeleteSnapshot(t *testing.T) {
+	const expectedURI = "/_snapshot/test_repo/snap_1412944813"
+	const expectedHTTPMethod = "DELETE"
+	var receivedURI string
+	var receivedHTTPMethod string
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		receivedURI = r.RequestURI
+		receivedHTTPMethod = r.Method
+		fmt.Fprintln(w, "`{}`")
+	}))
+	defer ts.Close()
+
+	DeleteSnapshot(ts.URL, "test_repo", "snap_1412944813")
+	if receivedURI != expectedURI {
+		t.Fatalf("Request URI not matched. Got %s. Expected: %s", receivedURI, expectedURI)
+	}
+	if receivedHTTPMethod != expectedHTTPMethod {
+		t.Fatalf("Request Method not matched. Got %s. Expected: %s", receivedHTTPMethod, expectedHTTPMethod)
+	}
 }

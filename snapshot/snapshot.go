@@ -83,6 +83,14 @@ var ListSnapshotsRequest SnapshotRequest = SnapshotRequest{
 	"",
 }
 
+var DeleteSnapshotsRequest SnapshotRequest = SnapshotRequest{
+	"localhost:9200",
+	"_snapshot/{{repo_name}}/{{snapshot_name}}",
+	"DELETE",
+	map[string]string{},
+	"",
+}
+
 func (r *SnapshotRequest) setPath() {
 	path := r.requestPath
 	for name, value := range r.pathSettings {
@@ -179,6 +187,17 @@ func RestoreLastSnapshot(url, repoName string) error {
 	}
 	RestoreSnapshot(url, repoName, lastSnapshot)
 	return nil
+}
+
+func DeleteSnapshot(url, repoName, snapName string) {
+	request := DeleteSnapshotsRequest
+	request.uri = url
+	request.pathSettings["repo_name"] = repoName
+	request.pathSettings["snapshot_name"] = snapName
+	_, err := request.perform()
+	if err != nil {
+		log.Panicf("Failed on create snapshot request. Err: %v", err)
+	}
 }
 
 func ListSnapshots(url, repoName string) listSnapshotsJSON {
