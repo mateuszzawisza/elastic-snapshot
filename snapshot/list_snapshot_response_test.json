@@ -1,33 +1,273 @@
 {
   "snapshots" : [ {
-    "snapshot" : "snap_1412944591",
+    "snapshot" : "snapshot_1414514679",
     "indices" : [ "twitter" ],
     "state" : "SUCCESS",
-    "start_time" : "2014-10-10T12:36:31.531Z",
-    "start_time_in_millis" : 1412944591531,
-    "end_time" : "2014-10-10T12:36:33.115Z",
-    "end_time_in_millis" : 1412944593115,
-    "duration_in_millis" : 1584,
+    "start_time" : "2014-10-28T16:44:39.232Z",
+    "start_time_in_millis" : 1414514679232,
+    "end_time" : "2014-10-28T16:45:12.731Z",
+    "end_time_in_millis" : 1414514712731,
+    "duration_in_millis" : 33499,
     "failures" : [ ],
     "shards" : {
-      "total" : 5,
+      "total" : 58,
       "failed" : 0,
-      "successful" : 5
+      "successful" : 58
     }
   }, {
-    "snapshot" : "snap_1412944813",
+    "snapshot" : "snapshot_1414519201",
     "indices" : [ "twitter" ],
     "state" : "SUCCESS",
-    "start_time" : "2014-10-10T12:40:13.904Z",
-    "start_time_in_millis" : 1412944813904,
-    "end_time" : "2014-10-10T12:40:14.730Z",
-    "end_time_in_millis" : 1412944814730,
-    "duration_in_millis" : 826,
+    "start_time" : "2014-10-28T18:00:01.450Z",
+    "start_time_in_millis" : 1414519201450,
+    "end_time" : "2014-10-28T18:00:36.345Z",
+    "end_time_in_millis" : 1414519236345,
+    "duration_in_millis" : 34895,
     "failures" : [ ],
     "shards" : {
-      "total" : 5,
+      "total" : 58,
       "failed" : 0,
-      "successful" : 5
+      "successful" : 58
     }
-  }]
+  }, {
+    "snapshot" : "snapshot_1414522801",
+    "indices" : [ "twitter" ],
+    "state" : "SUCCESS",
+    "start_time" : "2014-10-28T19:00:01.692Z",
+    "start_time_in_millis" : 1414522801692,
+    "end_time" : "2014-10-28T19:00:13.678Z",
+    "end_time_in_millis" : 1414522813678,
+    "duration_in_millis" : 11986,
+    "failures" : [ ],
+    "shards" : {
+      "total" : 58,
+      "failed" : 0,
+      "successful" : 58
+    }
+  }, {
+    "snapshot" : "snapshot_1414526402",
+    "indices" : [ "twitter" ],
+    "state" : "SUCCESS",
+    "start_time" : "2014-10-28T20:00:02.136Z",
+    "start_time_in_millis" : 1414526402136,
+    "end_time" : "2014-10-28T20:00:15.606Z",
+    "end_time_in_millis" : 1414526415606,
+    "duration_in_millis" : 13470,
+    "failures" : [ ],
+    "shards" : {
+      "total" : 58,
+      "failed" : 0,
+      "successful" : 58
+    }
+  }, {
+    "snapshot" : "snapshot_1414530001",
+    "indices" : [ "twitter" ],
+    "state" : "SUCCESS",
+    "start_time" : "2014-10-28T21:00:01.887Z",
+    "start_time_in_millis" : 1414530001887,
+    "end_time" : "2014-10-28T21:00:15.962Z",
+    "end_time_in_millis" : 1414530015962,
+    "duration_in_millis" : 14075,
+    "failures" : [ ],
+    "shards" : {
+      "total" : 58,
+      "failed" : 0,
+      "successful" : 58
+    }
+  }, {
+    "snapshot" : "snapshot_1414533601",
+    "indices" : [ "twitter" ],
+    "state" : "SUCCESS",
+    "start_time" : "2014-10-28T22:00:01.223Z",
+    "start_time_in_millis" : 1414533601223,
+    "end_time" : "2014-10-28T22:00:16.913Z",
+    "end_time_in_millis" : 1414533616913,
+    "duration_in_millis" : 15690,
+    "failures" : [ ],
+    "shards" : {
+      "total" : 58,
+      "failed" : 0,
+      "successful" : 58
+    }
+  }, {
+    "snapshot" : "snapshot_1414537201",
+    "indices" : [ "twitter" ],
+    "state" : "SUCCESS",
+    "start_time" : "2014-10-28T23:00:01.224Z",
+    "start_time_in_millis" : 1414537201224,
+    "end_time" : "2014-10-28T23:00:21.122Z",
+    "end_time_in_millis" : 1414537221122,
+    "duration_in_millis" : 19898,
+    "failures" : [ ],
+    "shards" : {
+      "total" : 58,
+      "failed" : 0,
+      "successful" : 58
+    }
+  }, {
+    "snapshot" : "snapshot_1414540801",
+    "indices" : [ "twitter" ],
+    "state" : "SUCCESS",
+    "start_time" : "2014-10-29T00:00:01.454Z",
+    "start_time_in_millis" : 1414540801454,
+    "end_time" : "2014-10-29T00:00:18.327Z",
+    "end_time_in_millis" : 1414540818327,
+    "duration_in_millis" : 16873,
+    "failures" : [ ],
+    "shards" : {
+      "total" : 58,
+      "failed" : 0,
+      "successful" : 58
+    }
+  }, {
+    "snapshot" : "snapshot_1414544401",
+    "indices" : [ "twitter" ],
+    "state" : "SUCCESS",
+    "start_time" : "2014-10-29T01:00:01.645Z",
+    "start_time_in_millis" : 1414544401645,
+    "end_time" : "2014-10-29T01:00:18.265Z",
+    "end_time_in_millis" : 1414544418265,
+    "duration_in_millis" : 16620,
+    "failures" : [ ],
+    "shards" : {
+      "total" : 58,
+      "failed" : 0,
+      "successful" : 58
+    }
+  }, {
+    "snapshot" : "snapshot_1414548001",
+    "indices" : [ "twitter" ],
+    "state" : "SUCCESS",
+    "start_time" : "2014-10-29T02:00:01.571Z",
+    "start_time_in_millis" : 1414548001571,
+    "end_time" : "2014-10-29T02:00:24.401Z",
+    "end_time_in_millis" : 1414548024401,
+    "duration_in_millis" : 22830,
+    "failures" : [ ],
+    "shards" : {
+      "total" : 58,
+      "failed" : 0,
+      "successful" : 58
+    }
+  }, {
+    "snapshot" : "snapshot_1414551601",
+    "indices" : [ "twitter" ],
+    "state" : "SUCCESS",
+    "start_time" : "2014-10-29T03:00:01.681Z",
+    "start_time_in_millis" : 1414551601681,
+    "end_time" : "2014-10-29T03:00:23.880Z",
+    "end_time_in_millis" : 1414551623880,
+    "duration_in_millis" : 22199,
+    "failures" : [ ],
+    "shards" : {
+      "total" : 58,
+      "failed" : 0,
+      "successful" : 58
+    }
+  }, {
+    "snapshot" : "snapshot_1414555201",
+    "indices" : [ "twitter" ],
+    "state" : "SUCCESS",
+    "start_time" : "2014-10-29T04:00:01.158Z",
+    "start_time_in_millis" : 1414555201158,
+    "end_time" : "2014-10-29T04:00:23.503Z",
+    "end_time_in_millis" : 1414555223503,
+    "duration_in_millis" : 22345,
+    "failures" : [ ],
+    "shards" : {
+      "total" : 58,
+      "failed" : 0,
+      "successful" : 58
+    }
+  }, {
+    "snapshot" : "snapshot_1414558801",
+    "indices" : [ "twitter" ],
+    "state" : "SUCCESS",
+    "start_time" : "2014-10-29T05:00:01.818Z",
+    "start_time_in_millis" : 1414558801818,
+    "end_time" : "2014-10-29T05:00:26.168Z",
+    "end_time_in_millis" : 1414558826168,
+    "duration_in_millis" : 24350,
+    "failures" : [ ],
+    "shards" : {
+      "total" : 58,
+      "failed" : 0,
+      "successful" : 58
+    }
+  }, {
+    "snapshot" : "snapshot_1414562401",
+    "indices" : [ "twitter" ],
+    "state" : "SUCCESS",
+    "start_time" : "2014-10-29T06:00:01.511Z",
+    "start_time_in_millis" : 1414562401511,
+    "end_time" : "2014-10-29T06:00:27.030Z",
+    "end_time_in_millis" : 1414562427030,
+    "duration_in_millis" : 25519,
+    "failures" : [ ],
+    "shards" : {
+      "total" : 58,
+      "failed" : 0,
+      "successful" : 58
+    }
+  }, {
+    "snapshot" : "snapshot_1414566001",
+    "indices" : [ "twitter" ],
+    "state" : "SUCCESS",
+    "start_time" : "2014-10-29T07:00:01.416Z",
+    "start_time_in_millis" : 1414566001416,
+    "end_time" : "2014-10-29T07:00:27.419Z",
+    "end_time_in_millis" : 1414566027419,
+    "duration_in_millis" : 26003,
+    "failures" : [ ],
+    "shards" : {
+      "total" : 58,
+      "failed" : 0,
+      "successful" : 58
+    }
+  }, {
+    "snapshot" : "snapshot_1414569601",
+    "indices" : [ "twitter" ],
+    "state" : "SUCCESS",
+    "start_time" : "2014-10-29T08:00:01.691Z",
+    "start_time_in_millis" : 1414569601691,
+    "end_time" : "2014-10-29T08:00:27.731Z",
+    "end_time_in_millis" : 1414569627731,
+    "duration_in_millis" : 26040,
+    "failures" : [ ],
+    "shards" : {
+      "total" : 58,
+      "failed" : 0,
+      "successful" : 58
+    }
+  }, {
+    "snapshot" : "snapshot_1414573202",
+    "indices" : [ "twitter" ],
+    "state" : "SUCCESS",
+    "start_time" : "2014-10-29T09:00:02.046Z",
+    "start_time_in_millis" : 1414573202046,
+    "end_time" : "2014-10-29T09:00:30.399Z",
+    "end_time_in_millis" : 1414573230399,
+    "duration_in_millis" : 28353,
+    "failures" : [ ],
+    "shards" : {
+      "total" : 58,
+      "failed" : 0,
+      "successful" : 58
+    }
+  }, {
+    "snapshot" : "snapshot_1414576801",
+    "indices" : [ "twitter" ],
+    "state" : "SUCCESS",
+    "start_time" : "2014-10-29T10:00:01.754Z",
+    "start_time_in_millis" : 1414576801754,
+    "end_time" : "2014-10-29T10:00:31.282Z",
+    "end_time_in_millis" : 1414576831282,
+    "duration_in_millis" : 29528,
+    "failures" : [ ],
+    "shards" : {
+      "total" : 58,
+      "failed" : 0,
+      "successful" : 58
+    }
+  } ]
 }

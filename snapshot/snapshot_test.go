@@ -150,7 +150,7 @@ func TestRestoreSnapshot(t *testing.T) {
 func TestRestoreLastSnapshot(t *testing.T) {
 	listSnapshotResponse := loadJSONFromFile("list_snapshot_response_test.json")
 
-	const expectedURI = "/_snapshot/test_repo/snap_1412944813/_restore"
+	const expectedURI = "/_snapshot/test_repo/snapshot_1414576801/_restore"
 	const expectedHTTPMethod = "POST"
 	var receivedURI string
 	var receivedHTTPMethod string
@@ -195,10 +195,10 @@ func TestListSnapshots(t *testing.T) {
 	if receivedHTTPMethod != expectedHTTPMethod {
 		t.Fatalf("Request Method not matched. Got %s. Expected: %s", receivedHTTPMethod, expectedHTTPMethod)
 	}
-	if snapshots.Snapshots[0].Snapshot != "snap_1412944591" {
+	if snapshots.Snapshots[0].Snapshot != "snapshot_1414514679" {
 		t.Fatalf("Snaphsot name mismatch")
 	}
-	if snapshots.Snapshots[1].Snapshot != "snap_1412944813" {
+	if snapshots.Snapshots[len(snapshots.Snapshots)-1].Snapshot != "snapshot_1414576801" {
 		t.Fatalf("Snaphsot name mismatch")
 	}
 }
