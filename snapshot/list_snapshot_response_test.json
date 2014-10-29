@@ -1,0 +1,33 @@
+{
+  "snapshots" : [ {
+    "snapshot" : "snap_1412944591",
+    "indices" : [ "twitter" ],
+    "state" : "SUCCESS",
+    "start_time" : "2014-10-10T12:36:31.531Z",
+    "start_time_in_millis" : 1412944591531,
+    "end_time" : "2014-10-10T12:36:33.115Z",
+    "end_time_in_millis" : 1412944593115,
+    "duration_in_millis" : 1584,
+    "failures" : [ ],
+    "shards" : {
+      "total" : 5,
+      "failed" : 0,
+      "successful" : 5
+    }
+  }, {
+    "snapshot" : "snap_1412944813",
+    "indices" : [ "twitter" ],
+    "state" : "SUCCESS",
+    "start_time" : "2014-10-10T12:40:13.904Z",
+    "start_time_in_millis" : 1412944813904,
+    "end_time" : "2014-10-10T12:40:14.730Z",
+    "end_time_in_millis" : 1412944814730,
+    "duration_in_millis" : 826,
+    "failures" : [ ],
+    "shards" : {
+      "total" : 5,
+      "failed" : 0,
+      "successful" : 5
+    }
+  }]
+}

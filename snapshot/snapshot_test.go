@@ -3,45 +3,13 @@ package snapshot
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
+	"os"
 
 	"net/http"
 	"net/http/httptest"
 	"testing"
 )
-
-const listSnapshotResponse string = `{
-  "snapshots" : [ {
-    "snapshot" : "snap_1412944591",
-    "indices" : [ "twitter" ],
-    "state" : "SUCCESS",
-    "start_time" : "2014-10-10T12:36:31.531Z",
-    "start_time_in_millis" : 1412944591531,
-    "end_time" : "2014-10-10T12:36:33.115Z",
-    "end_time_in_millis" : 1412944593115,
-    "duration_in_millis" : 1584,
-    "failures" : [ ],
-    "shards" : {
-      "total" : 5,
-      "failed" : 0,
-      "successful" : 5
-    }
-  }, {
-    "snapshot" : "snap_1412944813",
-    "indices" : [ "twitter" ],
-    "state" : "SUCCESS",
-    "start_time" : "2014-10-10T12:40:13.904Z",
-    "start_time_in_millis" : 1412944813904,
-    "end_time" : "2014-10-10T12:40:14.730Z",
-    "end_time_in_millis" : 1412944814730,
-    "duration_in_millis" : 826,
-    "failures" : [ ],
-    "shards" : {
-      "total" : 5,
-      "failed" : 0,
-      "successful" : 5
-    }
-  }]
-}`
 
 func TestSetPath(t *testing.T) {
 	const expectedRequestPath = "_snapshot/test_repo/snap_1"
@@ -180,6 +148,8 @@ func TestRestoreSnapshot(t *testing.T) {
 }
 
 func TestRestoreLastSnapshot(t *testing.T) {
+	listSnapshotResponse := loadJSONFromFile("list_snapshot_response_test.json")
+
 	const expectedURI = "/_snapshot/test_repo/snap_1412944813/_restore"
 	const expectedHTTPMethod = "POST"
 	var receivedURI string
@@ -206,6 +176,7 @@ func TestRestoreLastSnapshot(t *testing.T) {
 }
 
 func TestListSnapshots(t *testing.T) {
+	listSnapshotResponse := loadJSONFromFile("list_snapshot_response_test.json")
 	const expectedURI = "/_snapshot/test_repo/_all"
 	const expectedHTTPMethod = "GET"
 	var receivedURI string
@@ -251,4 +222,19 @@ func TestDeleteSnapshot(t *testing.T) {
 	if receivedHTTPMethod != expectedHTTPMethod {
 		t.Fatalf("Request Method not matched. Got %s. Expected: %s", receivedHTTPMethod, expectedHTTPMethod)
 	}
+}
+
+func loadJSONFromFile(fileName string) string {
+	file, err := os.Open(fileName)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	stat, _ := file.Stat()
+	data := make([]byte, stat.Size())
+	_, err = file.Read(data)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return string(data)
 }
