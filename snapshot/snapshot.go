@@ -91,6 +91,8 @@ var DeleteSnapshotsRequest SnapshotRequest = SnapshotRequest{
 	"",
 }
 
+var requestFailed = errors.New("Request failed")
+
 func (r *SnapshotRequest) setPath() {
 	path := r.requestPath
 	for name, value := range r.pathSettings {
@@ -122,6 +124,9 @@ func (r *SnapshotRequest) perform() (*http.Response, error) {
 	response, connectionErr := client.Do(req)
 	if connectionErr != nil {
 		return nil, connectionErr
+	}
+	if 500 <= response.StatusCode && response.StatusCode < 600 {
+		return response, requestFailed
 	}
 	return response, nil
 }
@@ -180,10 +185,13 @@ func RestoreSnapshot(url, repoName, snapName string) {
 }
 
 func RestoreLastSnapshot(url, repoName string) error {
-	snapshots := ListSnapshots(url, repoName)
-	lastSnapshot, err := findLastSnapshot(snapshots)
+	snapshots, err := ListSnapshots(url, repoName)
 	if err != nil {
 		return err
+	}
+	lastSnapshot, errSnapshot := findLastSnapshot(snapshots)
+	if errSnapshot != nil {
+		return errSnapshot
 	}
 	RestoreSnapshot(url, repoName, lastSnapshot)
 	return nil
@@ -201,7 +209,11 @@ func DeleteSnapshot(url, repoName, snapName string) {
 }
 
 func SnapshotRetention(url, repoName string, snapshotsToKeep int) error {
-	snapshots := ListSnapshots(url, repoName).Snapshots
+	snapshotsList, err := ListSnapshots(url, repoName)
+	if err != nil {
+		return err
+	}
+	snapshots := snapshotsList.Snapshots
 	if snapshotsToDeleteCount := (len(snapshots) - snapshotsToKeep); snapshotsToDeleteCount < 0 {
 		return nil
 	} else {
@@ -213,16 +225,16 @@ func SnapshotRetention(url, repoName string, snapshotsToKeep int) error {
 	}
 }
 
-func ListSnapshots(url, repoName string) listSnapshotsJSON {
+func ListSnapshots(url, repoName string) (listSnapshotsJSON, error) {
 	request := ListSnapshotsRequest
 	request.uri = url
 	request.pathSettings["repo_name"] = repoName
 	response, err := request.perform()
 	if err != nil {
-		log.Panicf("Failed on list snapshots request. Err: %v", err)
+		return listSnapshotsJSON{}, err
 	}
 	js := parseListSnapshotsResponse(response)
-	return js
+	return js, nil
 }
 
 func parseListSnapshotsResponse(response *http.Response) listSnapshotsJSON {

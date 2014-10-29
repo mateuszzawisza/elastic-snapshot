@@ -56,7 +56,11 @@ func main() {
 			log.Fatal("Restore failed")
 		}
 	case "list":
-		snapshots := snapshot.ListSnapshots(*address, *repo).Snapshots
+		snapshotList, err := snapshot.ListSnapshots(*address, *repo)
+		if err != nil {
+			log.Fatal("Failed to list snapshots. Error: %s", err)
+		}
+		snapshots := snapshotList.Snapshots
 		for _, snapshot := range snapshots {
 			fmt.Println(snapshot.Snapshot)
 		}

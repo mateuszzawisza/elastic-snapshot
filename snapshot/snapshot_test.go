@@ -188,7 +188,7 @@ func TestListSnapshots(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	snapshots := ListSnapshots(ts.URL, "test_repo")
+	snapshots, _ := ListSnapshots(ts.URL, "test_repo")
 	if receivedURI != expectedURI {
 		t.Fatalf("Request URI not matched. Got %s. Expected: %s", receivedURI, expectedURI)
 	}
@@ -242,6 +242,37 @@ func TestSnapshotRetention(t *testing.T) {
 	SnapshotRetention(ts.URL, "test_repo", 10)
 	if expectedDeletes != receivedDeletes {
 		t.Fatalf("Expected to receive %d deletes. Got: %d", expectedDeletes, receivedDeletes)
+	}
+}
+
+func TestSnapshotRetentionWithConnectionError(t *testing.T) {
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		receivedHTTPMethod := r.Method
+		if receivedHTTPMethod == "GET" {
+		} else if receivedHTTPMethod == "DELETE" {
+			fmt.Fprintln(w, "`{}`")
+		}
+	}))
+	ts.Close() // we're closing connection immediately to check how code will react
+
+	if err := SnapshotRetention(ts.URL, "test_repo", 10); err == nil {
+		t.Fatalf("Expected error but here weren't any")
+	}
+}
+
+func TestSnapshotRetentionWithError(t *testing.T) {
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		receivedHTTPMethod := r.Method
+		if receivedHTTPMethod == "GET" {
+			http.Error(w, "Server Error", http.StatusInternalServerError)
+		} else if receivedHTTPMethod == "DELETE" {
+			fmt.Fprintln(w, "`{}`")
+		}
+	}))
+	defer ts.Close()
+
+	if err := SnapshotRetention(ts.URL, "test_repo", 10); err == nil {
+		t.Fatalf("Expected error but here weren't any")
 	}
 }
 
