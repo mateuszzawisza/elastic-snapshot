@@ -224,6 +224,27 @@ func TestDeleteSnapshot(t *testing.T) {
 	}
 }
 
+func TestSnapshotRetention(t *testing.T) {
+	listSnapshotResponse := loadJSONFromFile("list_snapshot_response_test.json")
+	const expectedDeletes = 8
+	receivedDeletes := 0
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		receivedHTTPMethod := r.Method
+		if receivedHTTPMethod == "GET" {
+			fmt.Fprintln(w, listSnapshotResponse)
+		} else if receivedHTTPMethod == "DELETE" {
+			receivedDeletes = receivedDeletes + 1
+			fmt.Fprintln(w, "`{}`")
+		}
+	}))
+	defer ts.Close()
+
+	SnapshotRetention(ts.URL, "test_repo", 10)
+	if expectedDeletes != receivedDeletes {
+		t.Fatalf("Expected to receive %d deletes. Got: %d", expectedDeletes, receivedDeletes)
+	}
+}
+
 func loadJSONFromFile(fileName string) string {
 	file, err := os.Open(fileName)
 	if err != nil {

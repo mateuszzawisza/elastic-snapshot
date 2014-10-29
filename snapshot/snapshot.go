@@ -196,8 +196,11 @@ func DeleteSnapshot(url, repoName, snapName string) {
 	request.pathSettings["snapshot_name"] = snapName
 	_, err := request.perform()
 	if err != nil {
-		log.Panicf("Failed on create snapshot request. Err: %v", err)
+		log.Panicf("Failed on delete snapshot request. Err: %v", err)
 	}
+}
+
+func SnapshotRetention(url, repoName string, snapshotsToKeep int) {
 }
 
 func ListSnapshots(url, repoName string) listSnapshotsJSON {
