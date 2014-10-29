@@ -61,6 +61,12 @@ func main() {
 			log.Fatal("Restore failed")
 		}
 	case "clean-old":
+		if *masterOnly {
+			if amI := clusterstatus.AmIMaster(*address); amI == false {
+				log.Println("I'm not a master. Exiting.")
+				return
+			}
+		}
 		err := snapshot.SnapshotRetention(*address, *repo, *keep)
 		if err != nil {
 			log.Fatal("Cleanup failed. Got: %s", err)
