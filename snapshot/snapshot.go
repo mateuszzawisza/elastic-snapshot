@@ -131,22 +131,22 @@ func (r *SnapshotRequest) perform() (*http.Response, error) {
 	return response, nil
 }
 
-func CheckRepo(url, repoName string) bool {
+func CheckRepo(url, repoName string) (bool, error) {
 	request := CheckRepoRequest
 	request.uri = url
 	request.pathSettings["repo_name"] = repoName
 	response, err := request.perform()
 	if err != nil {
-		log.Panicf("Failed to perform check repo request. Err: %v", err)
+		return false, err
 	}
 	switch response.StatusCode {
 	default:
 		log.Printf("Got status: %s - %d", response.StatusCode, response.Status)
-		return false
+		return false, nil
 	case http.StatusOK:
-		return true
+		return true, nil
 	case http.StatusNotFound:
-		return false
+		return false, nil
 	}
 }
 

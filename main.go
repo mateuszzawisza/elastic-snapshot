@@ -36,7 +36,11 @@ func main() {
 	default:
 		return
 	case "create-repo":
-		if snapshot.CheckRepo(*address, *repo) {
+		repoExists, err := snapshot.CheckRepo(*address, *repo)
+		if err != nil {
+			log.Fatal("Could not verify if repo exists. Got: %s", err)
+		}
+		if repoExists {
 			log.Printf("Repo exists.")
 		} else {
 			snapshot.CreateRepo(*address, *repo, *bucketName, *basePath)

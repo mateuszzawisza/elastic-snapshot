@@ -38,7 +38,10 @@ func TestCheckRepoFound(t *testing.T) {
 		fmt.Fprintln(w, "`{}`")
 	}))
 	defer es.Close()
-	response := CheckRepo(es.URL, repoName)
+	response, err := CheckRepo(es.URL, repoName)
+	if err != nil {
+		t.Fatalf("Received unexpected error. Got %s", err)
+	}
 	if receivedURI != expectedURI {
 		t.Fatalf("Request URI not matched. Got %s. Expected: %s", receivedURI, expectedURI)
 	}
@@ -60,7 +63,10 @@ func TestCheckRepoNotFound(t *testing.T) {
 		http.NotFound(w, r)
 	}))
 	defer es.Close()
-	response := CheckRepo(es.URL, repoName)
+	response, err := CheckRepo(es.URL, repoName)
+	if err != nil {
+		t.Fatalf("Received unexpected error. Got %s", err)
+	}
 	if receivedURI != expectedURI {
 		t.Fatalf("Request URI not matched. Got %s. Expected: %s", receivedURI, expectedURI)
 	}
