@@ -200,7 +200,17 @@ func DeleteSnapshot(url, repoName, snapName string) {
 	}
 }
 
-func SnapshotRetention(url, repoName string, snapshotsToKeep int) {
+func SnapshotRetention(url, repoName string, snapshotsToKeep int) error {
+	snapshots := ListSnapshots(url, repoName).Snapshots
+	if snapshotsToDeleteCount := (len(snapshots) - snapshotsToKeep); snapshotsToDeleteCount < 0 {
+		return nil
+	} else {
+		snapshotsToDelete := snapshots[0:snapshotsToDeleteCount]
+		for _, snapshot := range snapshotsToDelete {
+			DeleteSnapshot(url, repoName, snapshot.Snapshot)
+		}
+		return nil
+	}
 }
 
 func ListSnapshots(url, repoName string) listSnapshotsJSON {
