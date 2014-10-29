@@ -10,10 +10,11 @@ import (
 	"github.com/mateuszzawisza/elastic-snapshot/snapshot"
 )
 
-const Version = "0.0.5"
+const Version = "0.0.6"
 
 var address = flag.String("address", "http://localhost:9200", "elasticsearch address:port")
-var action = flag.String("action", "action", "(list|create|restore)")
+var action = flag.String("action", "action", "(create-repo|list|create|restore|clean-old)")
+var keep = flag.Int("keep-snapshots", 720, "How many snapshots to keep")
 var repo = flag.String("repo", "my_repo", "snapshot repo")
 var bucketName = flag.String("bucket-name", "bucket", "Bucket name for the repository")
 var basePath = flag.String("base-path", "", "path in bucket")
@@ -58,6 +59,11 @@ func main() {
 		err := snapshot.RestoreLastSnapshot(*address, *repo)
 		if err != nil {
 			log.Fatal("Restore failed")
+		}
+	case "clean-old":
+		err := snapshot.SnapshotRetention(*address, *repo, *keep)
+		if err != nil {
+			log.Fatal("Cleanup failed. Got: %s", err)
 		}
 	case "list":
 		snapshotList, err := snapshot.ListSnapshots(*address, *repo)
