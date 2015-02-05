@@ -54,7 +54,8 @@ var CreateRepoRequest SnapshotRequest = SnapshotRequest{
     "type": "s3",
     "settings": {
         "bucket": "{{bucket_name}}",
-        "base_path": "{{base_path}}"
+        "base_path": "{{base_path}}",
+        "region": "{{base_path}}"
     }
 }`,
 }
@@ -150,12 +151,13 @@ func CheckRepo(url, repoName string) (bool, error) {
 	}
 }
 
-func CreateRepo(url, repoName, bucketName, basePath string) {
+func CreateRepo(url, repoName, bucketName, region, basePath string) {
 	request := CreateRepoRequest
 	request.uri = url
 	request.pathSettings["repo_name"] = repoName
 	request.pathSettings["bucket_name"] = bucketName
 	request.pathSettings["base_path"] = basePath
+	request.pathSettings["region"] = region
 	_, err := request.perform()
 	if err != nil {
 		log.Panicf("Failed on create repo request. Err: %v", err)
