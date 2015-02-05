@@ -10,7 +10,7 @@ import (
 	"github.com/mateuszzawisza/elastic-snapshot/snapshot"
 )
 
-const Version = "0.0.6"
+const Version = "0.0.7"
 
 var address = flag.String("address", "http://localhost:9200", "elasticsearch address:port")
 var action = flag.String("action", "action", "(create-repo|list|create|restore|clean-old)")
@@ -18,7 +18,7 @@ var keep = flag.Int("keep-snapshots", 720, "How many snapshots to keep")
 var repo = flag.String("repo", "my_repo", "snapshot repo")
 var bucketName = flag.String("bucket-name", "bucket", "Bucket name for the repository")
 var basePath = flag.String("base-path", "", "path in bucket")
-var region = flag.String("region", "", "region to use (defualt us-west-1)")
+var region = flag.String("region", "us-west-1", "region to use (defualt us-west-1)")
 var version = flag.Bool("version", false, "Print version and exit")
 var masterOnly = flag.Bool("master-only", false, "Perform action only if current node is master node")
 
@@ -45,7 +45,7 @@ func main() {
 		if repoExists {
 			log.Printf("Repo exists.")
 		} else {
-			snapshot.CreateRepo(*address, *repo, *bucketName, *region, *basePath)
+			snapshot.CreateRepo(*address, *repo, *bucketName, *basePath)
 		}
 	case "create":
 		if *masterOnly {

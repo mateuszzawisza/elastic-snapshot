@@ -78,6 +78,7 @@ func TestCheckRepoNotFound(t *testing.T) {
 func TestCreateRepo(t *testing.T) {
 	repoName := "super_cluster_repository"
 	bucketName := "elasticsearch-europe"
+  region := "us-west-1"
 	basePath := "super_cluster"
 	const expectedURI = "/_snapshot/super_cluster_repository"
 	const expectedHTTPMethod = "PUT"
@@ -85,7 +86,8 @@ func TestCreateRepo(t *testing.T) {
     "type": "s3",
     "settings": {
         "bucket": "elasticsearch-europe",
-        "base_path": "super_cluster"
+        "base_path": "super_cluster",
+        "region": "us-west-1"
     }
 }`
 	var receivedURI string
@@ -99,7 +101,7 @@ func TestCreateRepo(t *testing.T) {
 		fmt.Fprintln(w, "`{}`")
 	}))
 	defer es.Close()
-	CreateRepo(es.URL, repoName, bucketName, basePath)
+	CreateRepo(es.URL, repoName, bucketName, region, basePath)
 	if receivedURI != expectedURI {
 		t.Fatalf("Request URI not matched. Got %s. Expected: %s", receivedURI, expectedURI)
 	}

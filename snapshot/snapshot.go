@@ -55,7 +55,7 @@ var CreateRepoRequest SnapshotRequest = SnapshotRequest{
     "settings": {
         "bucket": "{{bucket_name}}",
         "base_path": "{{base_path}}",
-        "region": "{{base_path}}"
+        "region": "{{region}}"
     }
 }`,
 }
