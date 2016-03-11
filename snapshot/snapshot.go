@@ -158,9 +158,11 @@ func CreateRepo(url, repoName, bucketName, region, basePath string) {
 	request.pathSettings["bucket_name"] = bucketName
 	request.pathSettings["base_path"] = basePath
 	request.pathSettings["region"] = region
-	_, err := request.perform()
+	response, err := request.perform()
+	defer response.Body.Close()
 	if err != nil {
-		log.Panicf("Failed on create repo request. Err: %v", err)
+		body, _ := ioutil.ReadAll(response.Body)
+		log.Panicf("Failed on create repo request. Err: %v, %s", err, string(body))
 	}
 }
 
@@ -169,9 +171,11 @@ func CreateSnapshot(url, repoName, snapName string) {
 	request.uri = url
 	request.pathSettings["repo_name"] = repoName
 	request.pathSettings["snapshot_name"] = snapName
-	_, err := request.perform()
+	response, err := request.perform()
+	defer response.Body.Close()
 	if err != nil {
-		log.Panicf("Failed on create snapshot request. Err: %v", err)
+		body, _ := ioutil.ReadAll(response.Body)
+		log.Panicf("Failed on create snapshot request. Err: %v, %s", err, string(body))
 	}
 }
 
@@ -180,9 +184,11 @@ func RestoreSnapshot(url, repoName, snapName string) {
 	request.uri = url
 	request.pathSettings["repo_name"] = repoName
 	request.pathSettings["snapshot_name"] = snapName
-	_, err := request.perform()
+	response, err := request.perform()
+	defer response.Body.Close()
 	if err != nil {
-		log.Panicf("Failed on create snapshot request. Err: %v", err)
+		body, _ := ioutil.ReadAll(response.Body)
+		log.Panicf("Failed on restore snapshot request. Err: %v, %s", err, string(body))
 	}
 }
 
@@ -204,9 +210,11 @@ func DeleteSnapshot(url, repoName, snapName string) {
 	request.uri = url
 	request.pathSettings["repo_name"] = repoName
 	request.pathSettings["snapshot_name"] = snapName
-	_, err := request.perform()
+	response, err := request.perform()
+	defer response.Body.Close()
 	if err != nil {
-		log.Panicf("Failed on delete snapshot request. Err: %v", err)
+		body, _ := ioutil.ReadAll(response.Body)
+		log.Panicf("Failed on delete snapshot request. Err: %v, %s", err, string(body))
 	}
 }
 
