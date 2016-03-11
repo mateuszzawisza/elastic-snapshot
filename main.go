@@ -45,7 +45,7 @@ func main() {
 		if repoExists {
 			log.Printf("Repo exists.")
 		} else {
-			snapshot.CreateRepo(*address, *repo, *bucketName, *basePath)
+			snapshot.CreateRepo(*address, *repo, *bucketName, *region, *basePath)
 		}
 	case "create":
 		if *masterOnly {
